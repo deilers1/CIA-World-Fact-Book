@@ -1,0 +1,31 @@
+Economy - overview
+GDP (purchasing power parity)
+GDP (official exchange rate)
+GDP - real growth rate
+GDP - per capita (PPP)
+GDP - composition by sector
+Labor force
+Labor force - by occupation
+Unemployment rate
+Household income or consumption by percentage share
+Distribution of family income - Gini index
+Investment (gross fixed)
+Budget
+Taxes and other revenues
+Budget surplus (+) or deficit (-)
+Public debt
+Inflation rate (consumer prices)
+Stock of narrow money
+Stock of broad money
+Stock of domestic credit
+Market value of publicity traded shares
+Industries
+Industrial production growth rate
+Current account balance
+Exports
+Exports - commodities
+Imports
+Imports - commodities
+Debt - external
+Stock of direct foreign investment - at home
+Stock of direct foreign investment - abroad

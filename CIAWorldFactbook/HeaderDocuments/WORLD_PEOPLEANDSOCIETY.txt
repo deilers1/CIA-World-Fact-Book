@@ -1,0 +1,19 @@
+Languages
+Religions
+Population
+Age structure
+Median age
+Population growth rate
+Birth rate
+Death rate
+Urbanization
+Sex ratio
+Infant mortality rate
+Life expectancy at birth
+Total fertility rate
+Hospital bed density
+HIV/AIDS - adult prevelance rate
+HIV/AIDS - people living with HIV/AIDS
+HIV/AIDS - deaths
+Literacy
+School life expectancy (primary to tertitary education)

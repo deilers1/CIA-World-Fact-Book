@@ -1,0 +1,31 @@
+Nationality
+Ethnic groups
+Languages
+Religions
+Population
+Age structure
+Median age
+Population growth rate
+Birth rate
+Death rate
+net migration rate
+Urbanization
+Major cities - population
+Sex ratio
+Maternal mortality rate
+Infant mortality rate
+Life expectancy at birth
+Total fertility rate
+Health expenditures
+Physicians density
+Hospital bed density
+Drinking water source
+Sanitation facility access
+HIV/AIDS - adult prevalence rate
+HIV/AIDS - people living with HIV/AIDS
+HIV/AIDS - deaths
+Major infectious diseases
+Children under the age of 5 years underweight
+Education expenditures
+Literacy
+School life expectancy (primary to tertiary education)

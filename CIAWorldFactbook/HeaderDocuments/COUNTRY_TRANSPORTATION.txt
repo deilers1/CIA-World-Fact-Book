@@ -1,0 +1,8 @@
+Airports
+Airports - with paved runways
+Airports - with unpaved runways
+Heliports
+Pipelines
+Roadways
+Waterways
+Ports and terminals
