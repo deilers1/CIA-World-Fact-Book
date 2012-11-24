@@ -18,3 +18,11 @@ Natural hazards
 Environment - current issues
 Environment - international agreements
 Geography - note
+Airports
+Airports - with paved runways
+Airports - with unpaved runways
+Heliports
+Pipelines
+Roadways
+Waterways
+Ports and terminals

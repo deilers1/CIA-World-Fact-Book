@@ -19,4 +19,9 @@ Diplomatic representation from the US
 Flag description
 National symbol(s)
 National anthem
-
+Military branches
+Military service age and obligation
+Manpower available for military service
+Manpower fit for military service
+Manpower reaching militarily significant age annually
+Military expenditures
