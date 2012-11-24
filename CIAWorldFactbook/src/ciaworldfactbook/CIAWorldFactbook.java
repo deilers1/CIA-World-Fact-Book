@@ -15,38 +15,71 @@ import java.util.Scanner;
  */
 public class CIAWorldFactbook 
 {
-    ArrayList<String> countryCommunicationsList;
+    // these are made public for easier access
     
-    public CIAWorldFactbook()
+    public String[] countryCommunicationsList;
+    public String[] countryEconomyList;
+    public String[] countryGeographyList;
+    public String[] countryGovernmentList;
+    public String[] countryMainList;
+    public String[] countryPeopleAndSocietyList;
+    public String[] countryTransportationList;
+    public String[] worldCommunicationsList;
+    public String[] worldEconomyList;
+    public String[] worldGeographyList;
+    public String[] worldGovernmentList;
+    public String[] worldIntroductionList;
+    public String[] worldMainList;
+    public String[] worldMilitaryList;
+    public String[] worldPeopleAndSocietyList;
+    public String[] worldTransnationalIssuesList;
+    public String[] worldTransportationList;
+    
+    /**
+     * Constructor in which populates string arrays to be loaded into a JList
+     */
+    public CIAWorldFactbook() throws FileNotFoundException
     {
-        countryCommunicationsList = new ArrayList<String>();
+        countryCommunicationsList = populateList("HeaderDocuments/COUNTRY_COMMUNICATIONS.txt");
+        countryEconomyList = populateList("HeaderDocuments/COUNTRY_ECONOMY.txt");
+        countryGeographyList = populateList("HeaderDocuments/COUNTRY_GEOGRAPHY.txt");
+        countryGovernmentList = populateList("HeaderDocuments/COUNTRY_GOVERNMENT.txt");
+        countryMainList = populateList("HeaderDocuments/COUNTRY_MAIN.txt");
+        countryPeopleAndSocietyList = populateList("HeaderDocuments/COUNTRY_PEOPLEANDSOCIETY.txt");
+        worldCommunicationsList = populateList("HeaderDocuments/WORLD_COMMUNICATIONS.txt");
+        worldEconomyList = populateList("HeaderDocuments/WORLD_ECONOMY.txt");
+        worldGeographyList = populateList("HeaderDocuments/WORLD_GEOGRAPHY.txt");
+        worldGovernmentList = populateList("HeaderDocuments/WORLD_GOVERNMENT.txt");
+        worldIntroductionList = populateList("HeaderDocuments/WORLD_INTRODUCTION.txt");
+        worldMainList = populateList("HeaderDocuments/WORLD_MAIN.txt");
+        worldMilitaryList = populateList("HeaderDocuments/WORLD_MILITARY.txt");
+        worldPeopleAndSocietyList = populateList("HeaderDocuments/WORLD_PEOPLEANDSOCIETY.txt");
+        worldTransnationalIssuesList = populateList("HeaderDocuments/WORLD_TRANSNATIONALISSUES.txt");
+        worldTransportationList = populateList("HeaderDocuments/WORLD_TRANSPORTATION.txt");
     }
-    
-    public ArrayList<String> populateCountryCommunicationsList() throws FileNotFoundException
+        
+
+    /**
+     * Populates an array of strings given a country fact list
+     */
+    private static String[] populateList(String fileName) throws FileNotFoundException
     {
-        Scanner scan = new Scanner(new File("HeaderDocuments/COUNTRY_COMMUNICATIONS.txt"));
-        
-        
+        Scanner scan = new Scanner(new File(fileName));
+        ArrayList<String> list = new ArrayList<String>();
         while (scan.hasNext())
         {
-            countryCommunicationsList.add(scan.nextLine().trim());
+            list.add(scan.nextLine().trim());
+                    
         }
-        return countryCommunicationsList;
+        
+        String[] temp = new String[list.size()];
+        
+        for (int i = 0; i < list.size(); ++i)
+        {
+            temp[i] = list.get(i);
+        }
+        
+        return temp;
     }
     
-    public String[] getCountryCommunicationList() throws FileNotFoundException
-    {
-        ArrayList<String> temp = new ArrayList<String>();
-        
-        temp = populateCountryCommunicationsList();
-        String[] temp1 = new String[temp.size()];
-        
-        
-        for (int i = 0; i < temp.size(); ++i)
-        {
-            temp1[i] = temp.get(i);
-        }
-        
-        return temp1;
-    }
 }
