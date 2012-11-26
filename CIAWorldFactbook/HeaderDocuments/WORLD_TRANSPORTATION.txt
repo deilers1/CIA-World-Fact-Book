@@ -1,7 +1,0 @@
-Airports
-Heliports
-Railways
-Roadways
-Waterways
-Ports and terminals
-
