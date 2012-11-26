@@ -28,12 +28,8 @@ public class CIAWorldFactbook
     public String[] worldEconomyList;
     public String[] worldGeographyList;
     public String[] worldGovernmentList;
-    public String[] worldIntroductionList;
     public String[] worldMainList;
-    public String[] worldMilitaryList;
     public String[] worldPeopleAndSocietyList;
-    public String[] worldTransnationalIssuesList;
-    public String[] worldTransportationList;
     
     /**
      * Constructor in which populates string arrays to be loaded into a JList
@@ -50,12 +46,8 @@ public class CIAWorldFactbook
         worldEconomyList = populateList("HeaderDocuments/WORLD_ECONOMY.txt");
         worldGeographyList = populateList("HeaderDocuments/WORLD_GEOGRAPHY.txt");
         worldGovernmentList = populateList("HeaderDocuments/WORLD_GOVERNMENT.txt");
-        worldIntroductionList = populateList("HeaderDocuments/WORLD_INTRODUCTION.txt");
         worldMainList = populateList("HeaderDocuments/WORLD_MAIN.txt");
-        worldMilitaryList = populateList("HeaderDocuments/WORLD_MILITARY.txt");
         worldPeopleAndSocietyList = populateList("HeaderDocuments/WORLD_PEOPLEANDSOCIETY.txt");
-        worldTransnationalIssuesList = populateList("HeaderDocuments/WORLD_TRANSNATIONALISSUES.txt");
-        worldTransportationList = populateList("HeaderDocuments/WORLD_TRANSPORTATION.txt");
     }
         
 
