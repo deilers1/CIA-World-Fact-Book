@@ -99,7 +99,7 @@ public class WFBTable {
 	      for (Entry<String, String> entry : countryCodeList.entrySet()) {
 	    	  
 			if(command.equalsIgnoreCase(entry.getValue())){
-	    		WFBConnections.CountryData(entry.getKey());
+	    		WFBConnections.CountryHTML(entry.getKey());
 	    	  	} 
 	    	  }
 	      
