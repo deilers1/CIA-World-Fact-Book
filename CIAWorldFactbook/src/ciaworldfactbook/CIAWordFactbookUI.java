@@ -248,6 +248,7 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
         
         factDisplayTextArea.setText("");
         factDisplayTextArea.setLineWrap(true);
+        factDisplayTextArea.setEditable(false);
         if (!countrySelected || !factTypeSelected || !factSelected)
         {
             factDisplayTextArea.append("Please select");
