@@ -6,7 +6,12 @@ package ciaworldfactbook;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -15,63 +20,155 @@ import java.util.Scanner;
  */
 public class CIAWorldFactbook 
 {
-    // these are made public for easier access
-    
-    public String[] countryCommunicationsList;
-    public String[] countryEconomyList;
-    public String[] countryGeographyList;
-    public String[] countryGovernmentList;
-    public String[] countryMainList;
-    public String[] countryPeopleAndSocietyList;
-    public String[] countryTransportationList;
-    public String[] worldCommunicationsList;
-    public String[] worldEconomyList;
-    public String[] worldGeographyList;
-    public String[] worldGovernmentList;
-    public String[] worldMainList;
-    public String[] worldPeopleAndSocietyList;
-    
+    public HashMap<String,String> factTypeList;
+    private HashMap<String, String> countryCodeList;   
     /**
      * Constructor in which populates string arrays to be loaded into a JList
      */
-    public CIAWorldFactbook() throws FileNotFoundException
+    public CIAWorldFactbook() throws FileNotFoundException, IOException
     {
-        countryCommunicationsList = populateList("HeaderDocuments/COUNTRY_COMMUNICATIONS.txt");
-        countryEconomyList = populateList("HeaderDocuments/COUNTRY_ECONOMY.txt");
-        countryGeographyList = populateList("HeaderDocuments/COUNTRY_GEOGRAPHY.txt");
-        countryGovernmentList = populateList("HeaderDocuments/COUNTRY_GOVERNMENT.txt");
-        countryMainList = populateList("HeaderDocuments/COUNTRY_MAIN.txt");
-        countryPeopleAndSocietyList = populateList("HeaderDocuments/COUNTRY_PEOPLEANDSOCIETY.txt");
-        worldCommunicationsList = populateList("HeaderDocuments/WORLD_COMMUNICATIONS.txt");
-        worldEconomyList = populateList("HeaderDocuments/WORLD_ECONOMY.txt");
-        worldGeographyList = populateList("HeaderDocuments/WORLD_GEOGRAPHY.txt");
-        worldGovernmentList = populateList("HeaderDocuments/WORLD_GOVERNMENT.txt");
-        worldMainList = populateList("HeaderDocuments/WORLD_MAIN.txt");
-        worldPeopleAndSocietyList = populateList("HeaderDocuments/WORLD_PEOPLEANDSOCIETY.txt");
+
+        
+        factTypeList = populateFactTypeList("HeaderDocuments/CountryFactTypes.txt");
+        countryCodeList = new HashMap<String,String>();
+        createCountryKeyList();
     }
         
 
-    /**
-     * Populates an array of strings given a country fact list
-     */
-    private static String[] populateList(String fileName) throws FileNotFoundException
+
+    
+    private static HashMap<String, String> populateFactTypeList(String fileName) throws FileNotFoundException
     {
         Scanner scan = new Scanner(new File(fileName));
-        ArrayList<String> list = new ArrayList<String>();
+        HashMap<String, String> list = new HashMap<String, String>();
+        
         while (scan.hasNext())
         {
-            list.add(scan.nextLine().trim());
-                    
+            list.put(scan.nextLine().trim(), scan.nextLine().trim());
         }
         
-        String[] temp = new String[list.size()];
-        
-        for (int i = 0; i < list.size(); ++i)
-        {
-            temp[i] = list.get(i);
-        }
-        
-        return temp;
+        return list;
     }
     
+    public HashMap<String,String> getCountryCodeList()
+    {
+        return countryCodeList;
+    }
+    
+    private void createCountryKeyList() throws IOException
+    {
+            String CountryName = null;
+            String endTag = "</option>";
+            int endTaglen = endTag.length(); // length is 9
+            int space = 1;
+            final int STARTTAGLEN = 19;
+            String CountryCode = null;
+            
+        URL url = new URL("https://www.cia.gov/library/publications/the-world-factbook" +
+				"/print/textversion.html");
+	URLConnection connection = url.openConnection();
+        InputStream instream = connection.getInputStream();
+        
+        
+        Scanner in = new Scanner(instream);
+        
+        	      while (in.hasNextLine())
+	      {
+	         String input = in.nextLine();
+	         if(input.contains(endTag)){
+	        	 input = input.trim(); //System.out.println(input);
+	        	 CountryCode = input.substring(15, 17);
+	        	 String tempLine = input.substring(STARTTAGLEN + 1); 
+	        	 int linelen = tempLine.length();
+	        	 CountryName = tempLine.substring(0, (linelen - endTaglen - space));
+                         countryCodeList.put(CountryName, CountryCode);
+	        	 countryCodeList.remove("d "); //had to remove this key, value is unnecessary and invaluable
+	         }
+	      }
+    }
+    
+    	public String getCountryFact(String countryCode, String category) throws IOException {
+		
+		
+            URL url = new URL(
+                    "https://www.cia.gov/library/publications/the-world-factbook"
+                    + "/geos/countrytemplate_" + countryCode + ".html");
+
+            URLConnection connection = url.openConnection();
+            Scanner scan = WFBConnections.StreamConnection(connection);
+            String line = scan.nextLine();
+
+            String data = null;
+            boolean factFound = false;
+	    
+        while (scan.hasNextLine()) 
+        {
+            if (line.contains(category + "</a>")) 
+            {
+                while (scan.hasNextLine()) {
+                    if (line.contains("<div class=\"category_data\">")) 
+                    {
+                        data = getCategoryData(line);
+                        factFound = true;
+                        // ends the current connection
+                        break;
+                    }
+                    line = scan.nextLine().trim();
+                }
+            }
+            if (factFound) 
+            {
+
+                break;
+            }
+            line = scan.nextLine().trim();
+        }
+
+        return data;
+    }
+        
+    private static String getCategoryData(String input) throws IOException 
+    {
+
+        String data = null;
+        String startTag = "<div class=\"category_data\">";
+        String endTag = "</div>";
+        int startTagIndex;
+        int endTagIndex;
+
+        startTagIndex = indexOfIgnoreCase(input, startTag);
+        endTagIndex = indexOfIgnoreCase(input, endTag);
+
+        if (startTagIndex != -1 && endTagIndex != -1) 
+        {
+            data = input.substring(startTagIndex + startTag.length(), endTagIndex);
+            System.out.println(data);
+            if (data == null) 
+            {
+                System.out.println("No data found.");
+            }
+        }
+
+        return data;
+    }
+    
+        public static int indexOfIgnoreCase(String textToSearch, String pattern, int fromIndex) 
+    {
+
+        int patternLen = pattern.length();
+
+        while (textToSearch.length() > ((fromIndex + patternLen) - 1)) 
+        {
+            if (textToSearch.regionMatches(true, fromIndex, pattern, 0, patternLen)) 
+            {
+                return fromIndex;
+            }
+            fromIndex++;
+        }
+        return -1;
+    }
+
+	public static int indexOfIgnoreCase(String textToSearch, String pattern) {
+	      return indexOfIgnoreCase(textToSearch, pattern, 0);
+	   }
 }

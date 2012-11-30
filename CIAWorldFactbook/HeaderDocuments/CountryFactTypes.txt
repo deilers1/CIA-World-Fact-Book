@@ -1,0 +1,12 @@
+Communications 
+HeaderDocuments/COUNTRY_COMMUNICATIONS.txt
+Economy 
+HeaderDocuments/COUNTRY_ECONOMY.txt
+Geography and Transportation 
+HeaderDocuments/COUNTRY_GEOGRAPHY.txt
+Basic Country Information 
+HeaderDocuments/COUNTRY_MAIN.txt
+Government and Military 
+HeaderDocuments/COUNTRY_GOVERNMENT.txt
+Disputes, People, and Society 
+HeaderDocuments/COUNTRY_PEOPLEANDSOCIETY.txt
