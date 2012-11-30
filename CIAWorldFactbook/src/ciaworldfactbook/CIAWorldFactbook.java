@@ -142,7 +142,6 @@ public class CIAWorldFactbook
         if (startTagIndex != -1 && endTagIndex != -1) 
         {
             data = input.substring(startTagIndex + startTag.length(), endTagIndex);
-            System.out.println(data);
             if (data == null) 
             {
                 System.out.println("No data found.");
