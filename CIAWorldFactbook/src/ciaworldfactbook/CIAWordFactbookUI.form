@@ -42,7 +42,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="239" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jComboBox1" alignment="0" min="-2" pref="221" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                       <Component id="getFactButton" min="-2" max="-2" attributes="0"/>
@@ -55,9 +54,17 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="factDisplay" min="-2" pref="573" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="factSelector" alignment="0" max="32767" attributes="0"/>
-                      <Component id="factTypeSelector" alignment="0" pref="221" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="factSelector" min="-2" pref="221" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="factTypeSelector" min="-2" pref="221" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jComboBox1" min="-2" pref="221" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
