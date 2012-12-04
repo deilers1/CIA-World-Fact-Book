@@ -91,7 +91,8 @@ public class CIAWorldFactbook
     
     	public String getCountryFact(String countryCode, String category) throws IOException {
 		
-		
+	
+            
             URL url = new URL(
                     "https://www.cia.gov/library/publications/the-world-factbook"
                     + "/geos/countrytemplate_" + countryCode + ".html");
@@ -102,7 +103,14 @@ public class CIAWorldFactbook
 
             String data = null;
             boolean factFound = false;
-	    
+	    boolean isAreafact = false;
+            
+            if (category.equalsIgnoreCase("area")) {
+                isAreafact = true;
+            }
+            
+            
+            
         while (scan.hasNextLine()) 
         {
             if (line.contains(category + "</a>")) 
@@ -114,6 +122,17 @@ public class CIAWorldFactbook
                         factFound = true;
                         // ends the current connection
                         break;
+                    }
+                    else if (isAreafact)
+                    {
+                        data = getAreaInfo(line);
+                        if (data != null)
+                        {
+                            factFound = true;
+                        // ends the current connection
+                            break;
+                        }
+                        
                     }
                     line = scan.nextLine().trim();
                 }
@@ -177,4 +196,33 @@ public class CIAWorldFactbook
 	public static int indexOfIgnoreCase(String textToSearch, String pattern) {
 	      return indexOfIgnoreCase(textToSearch, pattern, 0);
 	   }
+        
+        public static String getAreaInfo(String input) {
+		
+		String startTag = "<div class=\"category\">";
+	    int startTaglength = startTag.length();
+		
+	    String leftArrow = "<";
+	    String rightArrow = ">";
+            String total = null;
+            String area = null;
+	    if(input.contains("total:")){
+			int leftArrowindex = input.indexOf(leftArrow, 1);
+			int rightArrowindex = input.indexOf(rightArrow, leftArrowindex);
+			int nextRAindex = input.indexOf(leftArrow, rightArrowindex);
+			
+			total = input.substring(startTaglength, leftArrowindex);
+			area = input.substring(rightArrowindex + 1, nextRAindex);
+		}
+            if (total==null && area==null)
+            {
+                return null;
+            }
+            else
+            {
+                return total+area;
+
+            }
+		   
+	}
 }
