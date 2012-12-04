@@ -1,6 +1,5 @@
 Telephones - main lines in use
 Telephones - mobile cellular
-Telephone system
 Broadcast media
 Internet country code
 Internet hosts
