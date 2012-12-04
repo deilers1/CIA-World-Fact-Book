@@ -1,6 +1,12 @@
-Information
+Introduction
+HeaderDocuments/WORLD_MAIN.txt
 Communications
+HeaderDocuments/WORLD_COMMUNICATIONS.txt
+Economy
+HeaderDocuments/WORLD_ECONOMY.txt
 Geography and Transportation
-Basic World Information
+HeaderDocuments/WORLD_GEOGRAPHY.txt
 Government and Military
+HeaderDocuments/WORLD_GOVERNMENT.txt
 World Disputes, People, and Society
+HeaderDocuments/WORLD_PEOPLEANDSOCIETY.txt

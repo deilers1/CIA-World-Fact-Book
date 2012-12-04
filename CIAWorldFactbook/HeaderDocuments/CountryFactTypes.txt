@@ -4,7 +4,7 @@ Economy
 HeaderDocuments/COUNTRY_ECONOMY.txt
 Geography and Transportation 
 HeaderDocuments/COUNTRY_GEOGRAPHY.txt
-Basic Country Information 
+Introduction 
 HeaderDocuments/COUNTRY_MAIN.txt
 Government and Military 
 HeaderDocuments/COUNTRY_GOVERNMENT.txt
