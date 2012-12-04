@@ -20,7 +20,8 @@ import java.util.Scanner;
  */
 public class CIAWorldFactbook 
 {
-    public HashMap<String,String> factTypeList;
+    public HashMap<String,String> countryFactTypeList;
+    public HashMap<String,String> worldFactTypeList;
     private HashMap<String, String> countryCodeList;   
     /**
      * Constructor in which populates string arrays to be loaded into a JList
@@ -29,7 +30,8 @@ public class CIAWorldFactbook
     {
 
         
-        factTypeList = populateFactTypeList("HeaderDocuments/CountryFactTypes.txt");
+        countryFactTypeList = populateFactTypeList("HeaderDocuments/CountryFactTypes.txt");
+        worldFactTypeList = populateFactTypeList("HeaderDocuments/WorldFactTypes.txt");
         countryCodeList = new HashMap<String,String>();
         createCountryKeyList();
     }
@@ -138,7 +140,12 @@ public class CIAWorldFactbook
 
         startTagIndex = indexOfIgnoreCase(input, startTag);
         endTagIndex = indexOfIgnoreCase(input, endTag);
-
+        
+        if (startTagIndex != -1 && endTagIndex == -1)
+        {
+            endTagIndex = input.length();
+        }
+        
         if (startTagIndex != -1 && endTagIndex != -1) 
         {
             data = input.substring(startTagIndex + startTag.length(), endTagIndex);

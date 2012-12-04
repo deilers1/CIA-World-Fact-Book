@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
 
 
 /**
@@ -31,6 +30,7 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
     boolean countrySelected;
     boolean factTypeSelected;
     boolean factSelected;
+    boolean worldSelected;
     
     public CIAWordFactbookUI() throws FileNotFoundException, IOException {
         initComponents();
@@ -39,6 +39,7 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
         countrySelected = false;
         factTypeSelected = false;
         factSelected = false;
+        worldSelected = false;
         
         try 
         {
@@ -56,7 +57,7 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
             jComboBox1.addItem(country);
         }
         
-        for (String value : wfb.factTypeList.keySet())
+        for (String value : wfb.countryFactTypeList.keySet())
         {
             factTypeSelector.addItem(value);
         }      
@@ -196,6 +197,15 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
         } else {
             countrySelected = true;
         }
+        
+        if(jComboBox1.getSelectedItem().equals("World"))
+        {
+            worldSelected = true;
+        }
+        else
+        {
+            worldSelected = false;
+        }
             
         
     }//GEN-LAST:event_jComboBox1ActionPerformed
@@ -212,23 +222,8 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
             factSelector.addItem("Select Fact");
         }
         
-        for (Map.Entry<String, String> entry : wfb.factTypeList.entrySet()) {
-            if (entry.getKey().equals((String) factTypeSelector.getSelectedItem())) {
-                try {
-                    factListArr = populateList(entry.getValue());
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(CIAWordFactbookUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                for (int i = 0; i < factListArr.length; ++i) {
-                    factSelector.addItem(factListArr[i]);
-                }
-                listPopulated = true;
-                factTypeSelected = true;
-                break;
-            }
-
-        }
+        populateWorldOrCountry(worldSelected);
+        
         factTypeSelected = true;
     }//GEN-LAST:event_factTypeSelectorActionPerformed
 
@@ -252,7 +247,7 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
         factDisplayTextArea.setWrapStyleWord(true);
         if (!countrySelected || !factTypeSelected || !factSelected)
         {
-            factDisplayTextArea.append("Please select");
+            factDisplayTextArea.append("Please select country, fact type, and fact");
         }
         else
         {
@@ -260,7 +255,13 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
             
             String countryCode = wfb.getCountryCodeList().get((String) jComboBox1.getSelectedItem());
             try {
-                factDisplayTextArea.append(wfb.getCountryFact(countryCode, selectedFact));
+                String fact = wfb.getCountryFact(countryCode, selectedFact);
+                if (fact==null) {
+                    factDisplayTextArea.append("No data found");
+                }
+                else {
+                    factDisplayTextArea.append(fact);
+                }
             } catch (IOException ex) {
                 Logger.getLogger(CIAWordFactbookUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -333,6 +334,50 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
         }
         
         return temp;
+    }
+    
+    private void populateWorldOrCountry (boolean isWorld)
+    {
+                if (!isWorld)
+        {
+            for (Map.Entry<String, String> entry : wfb.countryFactTypeList.entrySet()) {
+            if (entry.getKey().equals((String) factTypeSelector.getSelectedItem())) {
+                try {
+                    factListArr = populateList(entry.getValue());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(CIAWordFactbookUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                for (int i = 0; i < factListArr.length; ++i) {
+                    factSelector.addItem(factListArr[i]);
+                }
+                listPopulated = true;
+                factTypeSelected = true;
+                break;
+            }
+
+        }
+        }
+        else
+        {
+            for (Map.Entry<String, String> entry : wfb.worldFactTypeList.entrySet()) {
+            if (entry.getKey().equals((String) factTypeSelector.getSelectedItem())) {
+                try {
+                    factListArr = populateList(entry.getValue());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(CIAWordFactbookUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                for (int i = 0; i < factListArr.length; ++i) {
+                    factSelector.addItem(factListArr[i]);
+                }
+                listPopulated = true;
+                factTypeSelected = true;
+                break;
+            }
+
+        }
+        }
     }
     
     
