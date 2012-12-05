@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -24,7 +23,8 @@ public class CIAWorldFactbook
     public HashMap<String,String> worldFactTypeList;
     private HashMap<String, String> countryCodeList;   
     /**
-     * Constructor in which populates string arrays to be loaded into a JList
+     * Loads country and world fact types into HashMaps, so when a category is selected,
+     * the corresponding list will be loaded appropriately
      */
     public CIAWorldFactbook() throws FileNotFoundException, IOException
     {
@@ -33,7 +33,7 @@ public class CIAWorldFactbook
         countryFactTypeList = populateFactTypeList("HeaderDocuments/CountryFactTypes.txt");
         worldFactTypeList = populateFactTypeList("HeaderDocuments/WorldFactTypes.txt");
         countryCodeList = new HashMap<String,String>();
-        createCountryKeyList();
+        createCountryCodeList();
     }
         
 
@@ -57,14 +57,15 @@ public class CIAWorldFactbook
         return countryCodeList;
     }
     
-    private void createCountryKeyList() throws IOException
+    
+    private void createCountryCodeList() throws IOException
     {
-            String CountryName = null;
+            String CountryName;
             String endTag = "</option>";
             int endTaglen = endTag.length(); // length is 9
             int space = 1;
             final int STARTTAGLEN = 19;
-            String CountryCode = null;
+            String CountryCode;
             
         URL url = new URL("https://www.cia.gov/library/publications/the-world-factbook" +
 				"/print/textversion.html");
@@ -103,37 +104,85 @@ public class CIAWorldFactbook
 
             String data = null;
             boolean factFound = false;
-	    boolean isAreafact = false;
+            boolean isExchangeRate =false;
             
-            if (category.equalsIgnoreCase("area")) {
-                isAreafact = true;
+            if(category.equalsIgnoreCase("exchange rates"))
+            {
+                isExchangeRate=true;
             }
             
-            
+            String[] specialCases = {"area", "capital", "nationality", "median age", "urbanization", "sex ratio", "infant mortality rate", "Life expectancy at birth", "school life expectancy (primary to tertiary education)", "executive branch", "national anthem" };
+            String[] specialCaseIdentifiers = {"total:", "name:", "noun:", "total:", "urban population:", "at birth:", "total:", "total population:", "total:", "chief of state:", "name:" };
             
         while (scan.hasNextLine()) 
         {
-            if (line.contains(category + "</a>")) 
+            for (int i = 0; i < specialCases.length; ++i)
+            {
+                String s = specialCases[i];
+                if (s.equalsIgnoreCase(category))
+                {
+                    while (scan.hasNextLine())
+                    {
+                        if (line.contains(category+"</a>"))
+                        {
+                            while (scan.hasNextLine()) 
+                            {
+                                data = getSpecialData(line, specialCaseIdentifiers[i]);
+                                if (data != null) {
+                                    factFound = true;
+                                    break;
+                                }
+                                line = scan.nextLine().trim();
+                            }
+                        }
+                        if (factFound)
+                        {
+                            break;
+                        }
+                        line = scan.nextLine().trim();
+                    }
+                    
+
+                    if (data == null)
+                    {
+                        data = "Data not found";
+                        factFound = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (!factFound && line.contains(category + "</a>")) 
             {
                 while (scan.hasNextLine()) {
-                    if (line.contains("<div class=\"category_data\">")) 
+                    if (line.contains("<div class=\"category_data\">") && !isExchangeRate) 
                     {
                         data = getCategoryData(line);
                         factFound = true;
                         // ends the current connection
                         break;
                     }
-                    else if (isAreafact)
+                    else if (category.equalsIgnoreCase("exchange rates"))
                     {
-                        data = getAreaInfo(line);
-                        if (data != null)
+                        data = getCategoryData(line);
+                        if (data != null && data.equals("1 October - 30 September"))
                         {
+                            data = "No data found";
                             factFound = true;
-                        // ends the current connection
                             break;
                         }
-                        
+                        else if (data != null)
+                        {
+                            scan.nextLine();
+                            line = scan.nextLine().trim();
+                            
+                            data += "\n\n";
+                            data += getCategoryDataCustomTags(line, "<div class=\"category_data\" style=\"padding-top: 3px;\">", "</div>");
+                            factFound = true;
+                            break;
+                        }
                     }
+
                     line = scan.nextLine().trim();
                 }
             }
@@ -177,6 +226,33 @@ public class CIAWorldFactbook
         return data;
     }
     
+     private static String getCategoryDataCustomTags(String input, String startTag, String endTag) throws IOException 
+    {
+
+        String data = null;
+        int startTagIndex;
+        int endTagIndex;
+
+        startTagIndex = indexOfIgnoreCase(input, startTag);
+        endTagIndex = indexOfIgnoreCase(input, endTag);
+        
+        if (startTagIndex != -1 && endTagIndex == -1)
+        {
+            endTagIndex = input.length();
+        }
+        
+        if (startTagIndex != -1 && endTagIndex != -1) 
+        {
+            data = input.substring(startTagIndex + startTag.length(), endTagIndex);
+            if (data == null) 
+            {
+                System.out.println("No data found.");
+            }
+        }
+
+        return data;
+    }   
+    
         public static int indexOfIgnoreCase(String textToSearch, String pattern, int fromIndex) 
     {
 
@@ -197,7 +273,7 @@ public class CIAWorldFactbook
 	      return indexOfIgnoreCase(textToSearch, pattern, 0);
 	   }
         
-        public static String getAreaInfo(String input) {
+        public static String getAreaData(String input) {
 		
 		String startTag = "<div class=\"category\">";
 	    int startTaglength = startTag.length();
@@ -225,4 +301,29 @@ public class CIAWorldFactbook
             }
 		   
 	}
+        // this method also works for nationality
+        public static String getSpecialData(String input, String identifier) {
+		
+		String startTag = "<div class=\"category\">";
+	    int startTaglength = startTag.length();
+		
+	    String leftArrow = "<";
+	    String rightArrow = ">";
+            String capital = null;
+
+	    if(input.contains(identifier)){
+			int leftArrowindex = input.indexOf(leftArrow, 1);
+			int rightArrowindex = input.indexOf(rightArrow, leftArrowindex);
+			int nextRAindex = input.indexOf(leftArrow, rightArrowindex);
+			
+			capital = input.substring(rightArrowindex + 1, nextRAindex);
+		}
+
+ 
+                return capital;
+
+           
+		   
+	}
+        
 }
