@@ -182,7 +182,31 @@ public class CIAWorldFactbook
                             break;
                         }
                     }
-
+                    else if (category.equalsIgnoreCase("elevation extremes"))
+                    {
+                        String start = "lowest point: ";
+                        data = getSpecialData(line, "lowest point:");
+                        if (data != null)
+                        {
+                            data = start + data+"\n";
+                            while(scan.hasNextLine())
+                            {
+                                String temp = getCategoryDataCustomTags(line, "<span class=\"category_data\" style=\"font-weight:normal; vertical-align:top;\">", "</span>");
+                                
+                                if (temp != null)
+                                {
+                                    data = data + "highest point: " + temp;
+                                    factFound = true;
+                                    break;
+                                }
+                                line = scan.nextLine().trim();
+                            }
+                        }
+                    }
+                    if (factFound)
+                    {
+                        break;
+                    }
                     line = scan.nextLine().trim();
                 }
             }
@@ -301,7 +325,6 @@ public class CIAWorldFactbook
             }
 		   
 	}
-        // this method also works for nationality
         public static String getSpecialData(String input, String identifier) {
 		
 		String startTag = "<div class=\"category\">";
