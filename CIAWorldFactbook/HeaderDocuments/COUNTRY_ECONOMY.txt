@@ -5,11 +5,8 @@ GDP - real growth rate
 GDP - per capita (PPP)
 GDP - composition by sector
 Labor force
-Labor force - by occupation
 Unemployment rate
 Population below poverty line
-Household income or consumption by percentage share
-Budget
 Taxes and other revenues
 Budget surplus (+) or deficit (-)
 Inflation rate (consumer prices)
