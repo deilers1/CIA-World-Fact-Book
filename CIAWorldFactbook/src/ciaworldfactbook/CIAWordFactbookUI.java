@@ -34,7 +34,7 @@ public class CIAWordFactbookUI  extends javax.swing.JFrame {
     
     public CIAWordFactbookUI() throws FileNotFoundException, IOException {
         initComponents();
-        wfb = new CIAWorldFactbook(); // constructs object that creates string arrays to be loaded into JLists
+        wfb = new CIAWorldFactbook(); // constructs object that creates hash maps to be loaded into JLists
         listPopulated = false;
         countrySelected = false;
         factTypeSelected = false;
